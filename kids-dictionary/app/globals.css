@@ -1,0 +1,46 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --pink: #ec4899;
+  --yellow: #fbbf24;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --orange: #f97316;
+  --bg: #fdf4ff;
+  --card: #ffffff;
+  --text: #1e1b4b;
+  --muted: #6b7280;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
