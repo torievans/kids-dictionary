@@ -1,6 +1,6 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 export async function POST(request) {
   const { word } = await request.json();
@@ -11,7 +11,6 @@ export async function POST(request) {
 
   const cleanWord = word.trim().toLowerCase();
 
-  // Basic safety: reject very long inputs
   if (cleanWord.length > 50) {
     return Response.json({ error: "Word is too long." }, { status: 400 });
   }
@@ -39,15 +38,10 @@ Rules:
 - Respond with ONLY the JSON object, no extra text.`;
 
   try {
-    const message = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 512,
-      messages: [{ role: "user", content: prompt }],
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
 
-    const text = message.content[0].text.trim();
-
-    // Strip markdown code fences if present
     const jsonStr = text.replace(/^```json\n?/, "").replace(/\n?```$/, "");
     const data = JSON.parse(jsonStr);
 
